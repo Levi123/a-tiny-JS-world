@@ -1,84 +1,73 @@
-/* Refer to https://github.com/OleksiyRudenko/a-tiny-JS-world for the task details
-   Complete the below for code reviewers' convenience:
-
-   Code repository: https://github.com/Levi123/a-tiny-JS-world
-   Web app: _put project's github pages URL here_
-   */
-
-// ======== OBJECTS DEFINITIONS ========
-// Define your objects here
-const dog = {
-   species: 'dog',
-   name: 'Rich',
-   gender: 'male',
-   legs: 4,
-   hands: 0,
-   saying: 'Hav-hav!',
-   friends: ['Bonya'],
-}
-
-const cat = {
-   species: 'cat',
-   name: 'Bonya',
-   gender: 'female',
-   legs: 4,
-   hands: 0,
-   saying: 'Mr-mr-mr',
-   friends: ['Rich', 'Catwoman'],
-}
-
-const female = {
-   species: 'human',
-   name: 'Olya',
-   gender: 'female',
-   legs: 4,
-   hands: 4,
-   saying: "Glory to Ukraine",
-   friends: ['Yura', 'Rich'],
-}
-
-const male = {
-   species: 'human',
-   name: 'Yura',
-   gender: 'male',
-   legs: 4,
-   hands: 4,
-   saying: "Glory to Ukraine",
-   friends: ['Olya', 'Bonya'],
-}
-
-const catwoman = {
-   species: 'human',
-   name: 'Catwoman',
-   gender: 'female',
-   legs: 4,
-   hands: 4,
-   saying: cat.saying,
-   friends: ['Bonya']
-}
-// ======== OUTPUT ========
-/* Use print(message) for output.
-   Default tag for message is <pre>. Use print(message,'div') to change containing element tag.
-
-   Message can contain HTML markup. You may also tweak index.html and/or styles.css.
-   However, please, REFRAIN from improving visuals at least until your code is reviewed
-   so code reviewers might focus on a single file that is index.js.
-   */
-
-function printObject(object){
-   const prop = [];
-   for (element in object){
-      prop.push(object[element]);
+class Animal {
+   constructor (species, name, gender){
+      this.species = species;
+      this.name = name;
+      this.gender = gender;
    }
-   let newStr = prop.join('; ');
-   print(newStr);
 }
 
-printObject(catwoman);
-printObject(male);
-printObject(female);
-printObject(cat);
-printObject(dog);
+class Human {
+   constructor (name, species, gender, legs, hands, saying){
+      this.name = name;
+      this.species = species;
+      this.gender = gender;
+      this.legs = legs;
+      this.hands = hands;
+      this.saying = saying;
+   }
+}
 
+class Woman extends Human {
+   constructor(name, saying){
+      super(name, 'Human', 'Woman', 2, 2, saying)
+   }
+}
 
+class Man extends Human {
+   constructor(name, saying){
+      super(name, 'Human', 'Man', 2, 2, saying)
+   }
+}
 
+class Dog extends Animal {
+   constructor (name, gender, saying){
+      super('Dog', name, gender);
+      this.paws = 4;
+      this.saying = saying;
+   }
+}
+
+class Cat extends Animal {
+   constructor (name, gender, saying){
+      super('Cat', name, gender);
+      this.paws = 4;
+      this.saying = saying;
+   }
+}
+
+class CatWoman extends Woman {
+   constructor(name){
+      super(name);
+      this.species = 'Half-woman, half-cat';
+      this.saying = cat.saying;
+   }
+}
+
+const woman = new Woman('Olivia', 'Hello!');
+const man = new Man('Johny', 'How are you my friend?');
+const dog = new Dog ('Dollar', 'boy', 'Gav-gav!');
+const cat = new Cat ('Bonya', 'girl', 'Meoooow');
+const catWoman = new CatWoman ('Katty');
+
+const allResidents = [woman, man, dog, cat, catWoman]
+
+function printAllResidents(allResidentsArray) {
+   for (let i = 0; i < allResidentsArray.length; i++){
+      const prop = Object.keys(allResidentsArray[i]);
+      const propToPrint = prop.map((propOfObj) => allResidentsArray[i][propOfObj])
+      let strToPrint = propToPrint.join('; ');
+      print(strToPrint);
+   }
+}
+
+printAllResidents(allResidents);
